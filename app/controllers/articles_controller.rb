@@ -1,7 +1,10 @@
 class ArticlesController < ApplicationController
   http_basic_authenticate_with name: "test", password: "test", except: [:index, :show]
   def index
+    #using the below line alone renders default articles/index.html.erb view
     @articles = Article.all
+    # using the render loine below returns json to broswer and be used to implement react FE
+     render json: @articles
   end
 
   def show

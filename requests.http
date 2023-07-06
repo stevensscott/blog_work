@@ -1,0 +1,4 @@
+### Get 5 day wave forecast
+
+get http://localhost:3000/articles
+Content-Type: application/json
