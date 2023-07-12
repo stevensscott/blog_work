@@ -1,4 +1,13 @@
-### Get 5 day wave forecast
+### Get all articles
 
 get http://localhost:3000/articles
 Content-Type: application/json
+
+### Create Article
+post http://localhost:3000/articles
+Content-Type: application/json
+
+{
+  "title": "blablabla",
+  "body": "chest high and clean"
+}
