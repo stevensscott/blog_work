@@ -1,13 +1,16 @@
 ### Get all articles
 
-get http://localhost:3000/articles
+get http://localhost:3000/articles.json
 Content-Type: application/json
 
 ### Create Article
-post http://localhost:3000/articles
+post http://localhost:3000/articles.json
 Content-Type: application/json
 
-{
-  "title": "blablabla",
-  "body": "chest high and clean"
-}
+{ 
+    "article": {
+    "title": "Another gyygTest bla!!!",
+    "body": "This is a test article",
+    "status": "public"
+    }
+  }

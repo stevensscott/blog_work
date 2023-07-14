@@ -21,23 +21,28 @@ class ArticlesController < ApplicationController
 
   def create  
     # I'm now using your new private function instead of explicitly writing out each article attribute. 
-    @article = Article.new(article_params)
-    p "article params #{article_params}"
+    @article = Article.new(
+      title: article_params[:title],
+      body: article_params[:body],
+      status: article_params[:status]
+    
+    )
+   
 
-    if @article.save
-
+    if @article.save     
       # Again, the respond_to allows you to have a Rails frontend (html) and a React frontend (json)
       respond_to do |format|
         format.html do
+          p "In format html"
           redirect_to @article
         end
         
-        format.json do
+        format.json do         
           render json: @article.as_json
         end
       end
-    else
-      render :new, status: :unprocessable_entity
+    else        
+      render :json => { :errors => @article.errors.full_messages }
     end
   end
 
@@ -75,7 +80,6 @@ class ArticlesController < ApplicationController
   
   private
     def article_params
-      p "Am I even getting here?"
       params.require(:article).permit(:title, :body, :status)
     end
 end
