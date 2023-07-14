@@ -20,13 +20,12 @@ class ArticlesController < ApplicationController
   end
 
   def create  
-    # I'm now using your new private function instead of explicitly writing out each article attribute. 
-    @article = Article.new(
-      title: article_params[:title],
-      body: article_params[:body],
-      status: article_params[:status]
-    
-    )
+    # I'm now using a new private function instead of explicitly writing out each article attribute per the rails tutorial.
+    @article = Article.new(article_params)
+    #   title: article_params[:title],
+    #   body: article_params[:body],
+    #   status: article_params[:status]    
+    # )
    
 
     if @article.save     
@@ -52,9 +51,12 @@ class ArticlesController < ApplicationController
 
   def update
     @article = Article.find(params[:id])
+    p "article #{@article.to_json}"
 
     if @article.update(article_params)
-      redirect_to @article
+      p "article params #{article_params.to_json}"
+      render json: @article.as_json
+      # redirect_to @article
     else
       render :edit, status: :unprocessable_entity
     end
