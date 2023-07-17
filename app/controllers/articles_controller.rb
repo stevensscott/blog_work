@@ -4,15 +4,20 @@ class ArticlesController < ApplicationController
   def index
     @articles = Article.all
 
-    # adding this respond_to code block will allow you to render the html if you're in your browser visiting localhost:3000, OR render json if you're making a web request with '.json' at the end (like you do in React)
+    #  respond_to code block will allow you to render the html if you're in your browser visiting localhost:3000, OR render json if you're making a web request with '.json' at the end (like you do in React)
     respond_to do |format|
       format.html { @articles }
-      format.json { render json: @articles.as_json }
+      # format.json { render json: @articles.as_json }
+      format.json { render json: @articles.as_json(include:[:comments]) }
     end
   end
-
+  # This won't work until I create a seperate show render page I think since I only have the content page it shows the index as well as the show
   def show
-    @article = Article.find(params[:id])
+     @article = Article.find(params[:id])
+    # respond_to do |format|
+    #   format.html { @article }
+    #   format.json { render json: @article.as_json }
+    # end
   end
 
   def new
@@ -29,14 +34,15 @@ class ArticlesController < ApplicationController
    
 
     if @article.save     
-      # Again, the respond_to allows you to have a Rails frontend (html) and a React frontend (json)
+      # the respond_to allows you to have a Rails frontend (html) and a React frontend (json)
       respond_to do |format|
         format.html do
           p "In format html"
           redirect_to @article
         end
         
-        format.json do         
+        format.json do  
+          p "In format json"       
           render json: @article.as_json
         end
       end
@@ -69,7 +75,7 @@ class ArticlesController < ApplicationController
     redirect_to root_path, status: :see_other
   end
 
-  # this private method, only available in your articles controller, expects a web request that's formatted like this: 
+  # this private method expects a web request that's formatted like this: 
   # { 
   #   "article": {
   #     "title": "Another Test ABC!!!",
@@ -77,7 +83,7 @@ class ArticlesController < ApplicationController
   #     "status": "public"
   #   }
   # }
-  # You now need a key "article", and the value is the json object containing the attributes and their values! You'll most likely need to adjust your React frontend like so: 
+  # Here the key is "article" and the value is the json object containing the attributes(title, body, status) and their values. Modify  React frontend: 
   # axios.post("http://localhost:3000/articles.json", {article: params} )
   
   private
